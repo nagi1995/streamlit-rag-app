@@ -6,7 +6,7 @@ import tempfile
 import concurrent.futures
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter, TokenTextSplitter, CharacterTextSplitter
 from langchain.llms import HuggingFaceHub
 from langchain.prompts import PromptTemplate
 from langchain.vectorstores import Chroma, FAISS, PGVector
@@ -116,8 +116,19 @@ def keyword_retriever(docs, method):
         corpus = [dictionary.doc2bow(text.split()) for text in texts]
         lsi_model = models.LsiModel(corpus, id2word=dictionary, num_topics=100)
         return lambda query: [docs[i] for i in sorted(range(len(texts)), key=lambda i: sum(x[1] for x in lsi_model[dictionary.doc2bow(query.split())]) if i < len(texts) else 0, reverse=True)[:5]]
+
+
+# Function to get the correct text splitter
+def get_text_splitter(splitter_type, chunk_size, chunk_overlap):
+    if splitter_type == "Recursive":
+        return RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    elif splitter_type == "Character":
+        return CharacterTextSplitter(separator="\n\n", chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    elif splitter_type == "Token":
+        return TokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     
-    
+
+
 
 QA_CHAIN_PROMPT = PromptTemplate.from_template(
     """Use the following retrieved context to answer the question.
@@ -134,6 +145,11 @@ st.title("⚡ Streamlit RAG Application")
 col1, col2 = st.columns([1, 2])
 
 with col1:
+    st.markdown("### 📄 Text Splitting Settings")
+    splitter_type = st.selectbox("Select Text Splitter", ["Recursive", "Character", "Token", "Sentence"])
+    chunk_size = st.slider("Chunk Size", min_value=100, max_value=2000, value=500, step=50)
+    chunk_overlap = st.slider("Chunk Overlap", min_value=0, max_value=500, value=100, step=10)
+
     st.markdown("### 🛠️ Retrieval Settings")
     retrieval_type = st.selectbox("Select Retrieval Type", ["Hybrid", "Vector-based", "Keyword-based"])
 
@@ -164,7 +180,8 @@ with col2:
                 with tempfile.NamedTemporaryFile(delete=False) as temp_file:
                     temp_file.write(file.read())
                 loader = PyPDFLoader(temp_file.name) if file.name.endswith(".pdf") else TextLoader(temp_file.name) if file.name.endswith(".txt") else Docx2txtLoader(temp_file.name)
-                return RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100).split_documents(loader.load())
+                splitter = get_text_splitter(splitter_type, chunk_size, chunk_overlap)
+                return splitter.split_documents(loader.load())
 
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 for result in executor.map(process_file, uploaded_files):
