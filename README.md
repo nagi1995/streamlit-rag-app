@@ -59,9 +59,7 @@ HUGGINGFACEHUB_API_TOKEN=your_hf_token
 
 ## ▶️ Demo
 
-https://github.com/user-attachments/assets/5b7f7dd6-3907-4df4-8c21-552703e1b774.mp4
-
-
+https://github.com/user-attachments/assets/a8a1b31f-d222-4c72-8ab7-9cb298dea1d0
 
 ## 📦 Installation
 
