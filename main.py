@@ -15,11 +15,11 @@ import chromadb
 from chromadb.config import Settings
 import faiss
 import psycopg2
-from pgvector.psycopg2 import register_vector
+# from pgvector.psycopg2 import register_vector
 from rank_bm25 import BM25Okapi
 from sklearn.feature_extraction.text import TfidfVectorizer
 from gensim import corpora, models
-import fasttext
+
 
 # Load environment variables
 load_dotenv()
@@ -164,7 +164,7 @@ with col1:
         keyword_method = st.selectbox("Select Keyword Retrieval Method", ["BM25", "TF-IDF", "LSI"])
 
     st.markdown("### 🤖 LLM Settings")
-    llm_model = st.selectbox("Select LLM", ["mistralai/Mistral-7B-Instruct-v0.3", "google/gemma-7b", "stabilityai/stablelm-tuned-alpha-3b"])
+    llm_model = st.selectbox("Select LLM", ["mistralai/Mistral-7B-Instruct-v0.3", "google/gemma-7b", "stabilityai/stablelm-tuned-alpha-3b", "microsoft/Phi-4-mini-instruct"])
     temperature = st.slider("Temperature", 0.0, 1.0, 0.1)
     max_tokens = st.slider("Max Tokens", 50, 4096, 4000)
     top_k = st.slider("Top-K", 1, 50, 40)
