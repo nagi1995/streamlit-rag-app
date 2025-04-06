@@ -59,7 +59,7 @@ HUGGINGFACEHUB_API_TOKEN=your_hf_token
 
 ## ▶️ Demo
 
-https://github.com/nagi1995/streamlit-rag-app/blob/main/media/2.mp4
+https://github.com/user-attachments/assets/5b7f7dd6-3907-4df4-8c21-552703e1b774.mp4
 
 
 
@@ -114,7 +114,7 @@ streamlit run main.py
 
 ## 🧑‍💻 Author
 
-**Your Name**  
+**Nagesh**  
 [GitHub](https://github.com/nagi1995) | [LinkedIn](streamlit-rag-app)
 
 
