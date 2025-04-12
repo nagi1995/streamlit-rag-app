@@ -1,6 +1,12 @@
 
 # ⚡ Streamlit RAG Application
 
+---
+
+# [Link](https://binginagesh.medium.com/streamlit-rag-application-5a5f2b6bc2a8) to medium blog
+
+---
+
 A powerful and interactive Retrieval-Augmented Generation (RAG) application built with Streamlit. This tool supports multiple document formats (PDF, TXT, DOCX), enables chunking and retrieval using advanced techniques like ChromaDB, FAISS, and pgVector, and integrates with HuggingFace LLMs to generate answers from your uploaded documents.
 
 
