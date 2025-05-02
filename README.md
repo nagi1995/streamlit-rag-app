@@ -119,7 +119,7 @@ streamlit run main.py
 ## 🧑‍💻 Author
 
 **Nagesh**  
-[GitHub](https://github.com/nagi1995) | [LinkedIn](streamlit-rag-app)
+[GitHub](https://github.com/nagi1995) | [LinkedIn](https://www.linkedin.com/in/bnagesh1/)
 
 ---
 
